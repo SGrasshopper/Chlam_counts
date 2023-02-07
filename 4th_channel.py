@@ -18,6 +18,16 @@ imp = IJ.getImage()
 orgtitle = imp.getTitle()
 dimentions = imp.getDimensions()
 numZ, nChannels, numframes  = dimentions[3], dimentions[2], dimentions[4]
+imp.setPosition(1,numZ/2,1)
+IJ.resetMinAndMax(imp)
+IJ.run(imp, "Enhance Contrast", "saturated=0.35")
+WaitForUserDialog("Circle Inclusion, then click OK.").show()
+IJ.run("Clear Outside")
+IJ.run("Duplicate...", "duplicate")
+IJ.selectWindow(orgtitle)
+IJ.run('Close')
+imp = IJ.getImage()
+newtitle = imp.getTitle()
 channels = ChannelSplitter.split(imp)
 imp_GFP = channels[0]
 imp_RFP = channels[1]
@@ -37,5 +47,8 @@ imp_RFP.show()
 imp_DAPI.show()
 imp_all.show()
 IJ.run("Merge Channels...", "c1=GFP c2=RFP c3=DAPI c4=result create")
-IJ.selectWindow(orgtitle)
-#github test yay
+IJ.selectWindow(newtitle)
+IJ.run('Close')
+IJ.selectWindow('Composite')
+imp_comp = IJ.getImage()
+
