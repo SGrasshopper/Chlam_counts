@@ -39,8 +39,9 @@ numZ, nChannels, numframes  = dimentions[3], dimentions[2], dimentions[4]
 IJ.run(imp, "Unsharp Mask...", "radius=2 mask=0.60")
 IJ.run(imp, "Set Scale...", "distance=0 known=0 unit=pixel")
 IJ.run(imp, "Re-order Hyperstack ...", "channels=[Channels (c)] slices=[Frames (t)] frames=[Slices (z)]")
-# Setup settings for TrackMate
 imp = IJ.getImage()
+
+# Setup settings for TrackMate
 settings = Settings(imp)
 
 # Spot analyzer: we want the multi-C intensity analyzer.
@@ -95,9 +96,9 @@ IJ.log('Found %d spots in %d tracks.' % (model.getSpots().getNSpots(True) , mode
 # Print results in the console.
 headerStr = '%10s %10s %10s %10s %10s %10s' % ('Spot_ID', 'Track_ID', 'Frame', 'X', 'Y', 'Z')
 rowStr = '%10d %10d %10d %10.1f %10.1f %10.1f'
-for i in range( nChannels ):
-    headerStr += ('%10s' % ( 'C' + str(i+1) ) )
-    rowStr += ( '%10.1f' )
+for i in range(nChannels):
+    headerStr += ('%10s' % ('C' + str(i+1)))
+    rowStr += ('%10.1f')
 
 #open a file to save results
 myfile = open('/Users/scottgrieshaber/Documents/'+orgtitle.split('.')[0]+'_ch3.csv', 'wb')
