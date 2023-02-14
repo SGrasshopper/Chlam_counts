@@ -73,9 +73,9 @@ settings.addAllAnalyzers()
 # Spot detector.
 settings.detectorFactory = LogDetectorFactory()
 settings.detectorSettings = settings.detectorFactory.getDefaultSettings()
-settings.detectorSettings['TARGET_CHANNEL'] = 3
-settings.detectorSettings['RADIUS'] = 3.4
-settings.detectorSettings['THRESHOLD'] = 75.0
+settings.detectorSettings['TARGET_CHANNEL'] = 4
+settings.detectorSettings['RADIUS'] = 0.5
+settings.detectorSettings['THRESHOLD'] = 180.0
 
 # Spot tracker.
 # Configure tracker - We don't want to allow merges or splits
@@ -83,8 +83,8 @@ settings.trackerFactory = SparseLAPTrackerFactory()
 settings.trackerSettings = settings.trackerFactory.getDefaultSettings() # almost good enough
 settings.trackerSettings['ALLOW_TRACK_SPLITTING'] = False
 settings.trackerSettings['ALLOW_TRACK_MERGING'] = False
-settings.trackerSettings['LINKING_MAX_DISTANCE'] = 2.0
-settings.trackerSettings['GAP_CLOSING_MAX_DISTANCE'] = 2.0
+settings.trackerSettings['LINKING_MAX_DISTANCE'] = 0.1
+settings.trackerSettings['GAP_CLOSING_MAX_DISTANCE'] = 0.1
 settings.trackerSettings['MAX_FRAME_GAP'] = 0
 
 # Configure track filters
