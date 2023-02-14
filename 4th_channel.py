@@ -1,3 +1,17 @@
+import fiji.plugin.trackmate.features.FeatureFilter as FeatureFilter
+import fiji.plugin.trackmate.features.track.TrackDurationAnalyzer as TrackDurationAnalyzer
+import fiji.plugin.trackmate.features.track.TrackSpotQualityFeatureAnalyzer as TrackSpotQualityFeatureAnalyzer
+import fiji.plugin.trackmate.Spot as Spot
+import fiji.plugin.trackmate.Spot.frameComparator as frameComparator
+import fiji.plugin.trackmate.Model as Model
+import fiji.plugin.trackmate.Settings as Settings
+import fiji.plugin.trackmate.TrackMate as TrackMate
+
+import fiji.plugin.trackmate.detection.LogDetectorFactory as LogDetectorFactory
+
+import fiji.plugin.trackmate.tracking.jaqaman.SparseLAPTrackerFactory as SparseLAPTrackerFactory
+import fiji.plugin.trackmate.features.spot.SpotIntensityMultiCAnalyzerFactory as SpotIntensityMultiCAnalyzerFactory
+from ij.plugin import ChannelSplitter
 from ij.plugin import ImageCalculator
 from net.imglib2.img.display.imagej import ImageJFunctions
 from java.awt.event import TextListener
@@ -6,7 +20,6 @@ from ij.gui import GenericDialog
 from ij.io import OpenDialog
 from ij.measure import ResultsTable
 from ij.gui import WaitForUserDialog
-from ij.plugin import ChannelSplitter
 import java.util.ArrayList as ArrayList
 import csv
 import os
@@ -68,7 +81,7 @@ settings.detectorSettings['THRESHOLD'] = 75.0
 # Spot tracker.
 # Configure tracker - We don't want to allow merges or splits
 settings.trackerFactory = SparseLAPTrackerFactory()
-settings.trackerSettings = LAPUtils.getDefaultLAPSettingsMap() # almost good enough
+settings.trackerSettings = settings.trackerFactory.getDefaultSettings() # almost good enough
 settings.trackerSettings['ALLOW_TRACK_SPLITTING'] = False
 settings.trackerSettings['ALLOW_TRACK_MERGING'] = False
 settings.trackerSettings['LINKING_MAX_DISTANCE'] = 2.0
