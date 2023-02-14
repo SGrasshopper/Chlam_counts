@@ -6,9 +6,7 @@ import fiji.plugin.trackmate.Spot.frameComparator as frameComparator
 import fiji.plugin.trackmate.Model as Model
 import fiji.plugin.trackmate.Settings as Settings
 import fiji.plugin.trackmate.TrackMate as TrackMate
-
 import fiji.plugin.trackmate.detection.LogDetectorFactory as LogDetectorFactory
-
 import fiji.plugin.trackmate.tracking.jaqaman.SparseLAPTrackerFactory as SparseLAPTrackerFactory
 import fiji.plugin.trackmate.features.spot.SpotIntensityMultiCAnalyzerFactory as SpotIntensityMultiCAnalyzerFactory
 from ij.plugin import ChannelSplitter
@@ -34,6 +32,7 @@ numZ, nChannels, numframes  = dimentions[3], dimentions[2], dimentions[4]
 imp.setPosition(1,numZ/2,1)
 IJ.resetMinAndMax(imp)
 IJ.run(imp, "Enhance Contrast", "saturated=0.35")
+IJ.setTool("freehand")
 WaitForUserDialog("Circle Inclusion, then click OK.").show()
 IJ.run("Clear Outside")
 IJ.run("Duplicate...", "duplicate")
