@@ -83,8 +83,8 @@ settings.addAllAnalyzers()
 settings.detectorFactory = LogDetectorFactory()
 settings.detectorSettings = settings.detectorFactory.getDefaultSettings()
 settings.detectorSettings['TARGET_CHANNEL'] = 4
-settings.detectorSettings['RADIUS'] =10.0
-settings.detectorSettings['THRESHOLD'] = 4.0
+settings.detectorSettings['RADIUS'] =9.0
+settings.detectorSettings['THRESHOLD'] = 70.0
 
 # Spot tracker.
 # Configure tracker - We don't want to allow merges or splits
