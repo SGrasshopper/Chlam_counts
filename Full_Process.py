@@ -9,6 +9,9 @@ import fiji.plugin.trackmate.TrackMate as TrackMate
 import fiji.plugin.trackmate.detection.LogDetectorFactory as LogDetectorFactory
 import fiji.plugin.trackmate.tracking.jaqaman.SparseLAPTrackerFactory as SparseLAPTrackerFactory
 import fiji.plugin.trackmate.features.spot.SpotIntensityMultiCAnalyzerFactory as SpotIntensityMultiCAnalyzerFactory
+from fiji.plugin.trackmate import SelectionModel
+from fiji.plugin.trackmate.gui.displaysettings import DisplaySettingsIO
+from fiji.plugin.trackmate.visualization.hyperstack import HyperStackDisplayer
 from ij.plugin import ChannelSplitter
 from ij.plugin import ImageCalculator
 from net.imglib2.img.display.imagej import ImageJFunctions
@@ -80,8 +83,8 @@ settings.addAllAnalyzers()
 settings.detectorFactory = LogDetectorFactory()
 settings.detectorSettings = settings.detectorFactory.getDefaultSettings()
 settings.detectorSettings['TARGET_CHANNEL'] = 4
-settings.detectorSettings['RADIUS'] =15.0
-settings.detectorSettings['THRESHOLD'] = 5.0
+settings.detectorSettings['RADIUS'] =10.0
+settings.detectorSettings['THRESHOLD'] = 4.0
 
 # Spot tracker.
 # Configure tracker - We don't want to allow merges or splits
