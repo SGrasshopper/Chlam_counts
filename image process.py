@@ -70,6 +70,7 @@ def im_process():
 	IJ.run("Set Scale...", "distance=0")
 	IJ.run("Re-order Hyperstack ...", "channels=[Channels (c)] slices=[Frames (t)] frames=[Slices (z)]")
 	imp_comp = IJ.getImage()
+	IJ.run('Close')
 
 od = OpenDialog("Time Laps Images", "")
 firstDir = od.getDirectory()
@@ -84,7 +85,7 @@ if ".DS_Store" in fileList:
 fileList.sort()
 for fileName in fileList:
     currentFile = firstDir + fileName
-    print(firstDir)
+    print(currentFile)
     #IJ.run("Bio-Formats Importer", "open=[" + currentFile + "] color_mode=Default split_channels view=Hyperstack stack_order=XYCZT series_list="+str(i))
     #IJ.run("Bio-Formats Importer", "open=[" + currentFile + "] color_mode=Composite view=Hyperstack stack_order=XYCZT use_virtual_stack")
     IJ.run("Bio-Formats Importer", "open=[" + currentFile + "] color_mode=Composite view=Hyperstack stack_order=XYCZT")
@@ -92,3 +93,4 @@ for fileName in fileList:
     #imp = IJ.openImage(currentFile)
     #imp.show()
     im_process()
+    
