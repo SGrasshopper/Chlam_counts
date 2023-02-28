@@ -9,6 +9,9 @@ import fiji.plugin.trackmate.TrackMate as TrackMate
 import fiji.plugin.trackmate.detection.LogDetectorFactory as LogDetectorFactory
 import fiji.plugin.trackmate.tracking.jaqaman.SparseLAPTrackerFactory as SparseLAPTrackerFactory
 import fiji.plugin.trackmate.features.spot.SpotIntensityMultiCAnalyzerFactory as SpotIntensityMultiCAnalyzerFactory
+from fiji.plugin.trackmate import SelectionModel
+from fiji.plugin.trackmate.gui.displaysettings import DisplaySettingsIO
+from fiji.plugin.trackmate.visualization.hyperstack import HyperStackDisplayer
 from ij.plugin import ChannelSplitter
 from ij.plugin import ImageCalculator
 from net.imglib2.img.display.imagej import ImageJFunctions
@@ -62,4 +65,6 @@ IJ.run("Merge Channels...", "c1=GFP c2=RFP c3=DAPI c4=result create")
 IJ.selectWindow(newtitle)
 IJ.run('Close')
 IJ.selectWindow('Composite')
+IJ.run("Set Scale...", "distance=0")
+IJ.run("Re-order Hyperstack ...", "channels=[Channels (c)] slices=[Frames (t)] frames=[Slices (z)]")
 imp_comp = IJ.getImage()
