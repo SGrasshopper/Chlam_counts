@@ -70,3 +70,25 @@ def im_process():
 	IJ.run("Set Scale...", "distance=0")
 	IJ.run("Re-order Hyperstack ...", "channels=[Channels (c)] slices=[Frames (t)] frames=[Slices (z)]")
 	imp_comp = IJ.getImage()
+
+od = OpenDialog("Time Laps Images", "")
+firstDir = od.getDirectory()
+fileList = os.listdir(firstDir)
+
+if "DisplaySettings.json" in fileList:
+    fileList.remove("DisplaySettings.json")
+if ".DS_Store" in fileList:  
+    fileList.remove(".DS_Store")  
+#print(firstDir + fileList[0])
+
+fileList.sort()
+for fileName in fileList:
+    currentFile = firstDir + fileName
+    print(firstDir)
+    #IJ.run("Bio-Formats Importer", "open=[" + currentFile + "] color_mode=Default split_channels view=Hyperstack stack_order=XYCZT series_list="+str(i))
+    #IJ.run("Bio-Formats Importer", "open=[" + currentFile + "] color_mode=Composite view=Hyperstack stack_order=XYCZT use_virtual_stack")
+    IJ.run("Bio-Formats Importer", "open=[" + currentFile + "] color_mode=Composite view=Hyperstack stack_order=XYCZT")
+    #IJ.run("Set Measurements...", "area limit redirect=None decimal=0")
+    #imp = IJ.openImage(currentFile)
+    #imp.show()
+    im_process()
