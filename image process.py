@@ -32,6 +32,7 @@ from ij import ImagePlus
 def im_process():
 	imp = IJ.getImage()
 	orgtitle = imp.getTitle()
+	print(orgtitle)
 	dimentions = imp.getDimensions()
 	numZ, nChannels, numframes  = dimentions[3], dimentions[2], dimentions[4]
 	imp.setPosition(1,numZ/2,1)
@@ -70,7 +71,7 @@ def im_process():
 	IJ.run("Set Scale...", "distance=0")
 	IJ.run("Re-order Hyperstack ...", "channels=[Channels (c)] slices=[Frames (t)] frames=[Slices (z)]")
 	imp_comp = IJ.getImage()
-	IJ.run(imp_comp, "Bio-Formats Exporter", "save=/home/coxiella/Desktop/datastore/live-image-data/BmeC_chlor_02-22-23/z-reduced/" + orgtitle + ".ome.tif export compression=LZW")
+	IJ.run(imp_comp, "Bio-Formats Exporter", "save=/Users/brendangrieshaber/Desktop/test-output/" + orgtitle + ".ome.tif export compression=LZW")
     #IJ.selectWindow('Merged')
 	IJ.run('Close')
 
