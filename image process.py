@@ -70,6 +70,8 @@ def im_process():
 	IJ.run("Set Scale...", "distance=0")
 	IJ.run("Re-order Hyperstack ...", "channels=[Channels (c)] slices=[Frames (t)] frames=[Slices (z)]")
 	imp_comp = IJ.getImage()
+	IJ.run(imp_comp, "Bio-Formats Exporter", "save=/home/coxiella/Desktop/datastore/live-image-data/BmeC_chlor_02-22-23/z-reduced/" + orgtitle + ".ome.tif export compression=LZW")
+    #IJ.selectWindow('Merged')
 	IJ.run('Close')
 
 od = OpenDialog("Time Laps Images", "")
