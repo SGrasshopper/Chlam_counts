@@ -64,6 +64,11 @@ def im_process():
 	imp_RFP.show()
 	imp_DAPI.show()
 	imp_all.show()
+	#threshold
+	#mask
+	#apply mask
+	
+	
 	IJ.run("Merge Channels...", "c1=GFP c2=RFP c3=DAPI c4=result create")
 	IJ.selectWindow(newtitle)
 	IJ.run('Close')
