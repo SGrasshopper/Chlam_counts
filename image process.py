@@ -65,7 +65,7 @@ def im_process():
 	imp_DAPI.show()
 	imp_all.show()
 	imp_all_dup = imp_all.duplicate()
-	IJ.run(imp_all_dup, "Convert to Mask", "method=IsoData background=Dark calculate black")
+	IJ.run(imp_all_dup, "Convert to Mask", "method=IsoData background=Dark black")
 	IJ.run(imp_all_dup, "Divide...", "value=255 stack")
 	imp_all2 = ImageCalculator.run(imp_all, imp_all_dup, "Multiply create 16-bit stack")
 	imp_all2.setTitle("result2")
