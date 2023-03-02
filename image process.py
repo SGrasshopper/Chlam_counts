@@ -64,17 +64,24 @@ def im_process():
 	imp_RFP.show()
 	imp_DAPI.show()
 	imp_all.show()
-	#threshold
-	#mask
-	#apply mask
+	imp_all_dup = imp_all.duplicate()
+	IJ.run(imp_all_dup, "Convert to Mask", "method=IsoData background=Dark calculate black")
+	IJ.run(imp_all_dup, "Divide...", "value=255 stack")
+	imp_all2 = ImageCalculator.run(imp_all, imp_all_dup, "Multiply create 16-bit stack")
+	imp_all2.setTitle("result2")
+	#IJ.resetMinAndMax(imp_all2)
+	#IJ.run(imp_all2, "Enhance Contrast", "saturated=0.35")
+	#IJ.run(imp_all2, "16-bit", "")
+	imp_all2.show()
 	
-	
-	IJ.run("Merge Channels...", "c1=GFP c2=RFP c3=DAPI c4=result create")
+
+	IJ.run("Merge Channels...", "c1=GFP c2=RFP c3=DAPI c4=result2 create")
 	IJ.selectWindow(newtitle)
 	IJ.run('Close')
 	IJ.selectWindow('Composite')
 	IJ.run("Set Scale...", "distance=0")
 	IJ.run("Re-order Hyperstack ...", "channels=[Channels (c)] slices=[Frames (t)] frames=[Slices (z)]")
+	
 	imp_comp = IJ.getImage()
 	IJ.run(imp_comp, "Bio-Formats Exporter", "save=/Users/brendangrieshaber/Desktop/test-output/" + orgtitle + ".ome.tif export compression=LZW")
     #IJ.selectWindow('Merged')
