@@ -30,9 +30,9 @@ from ij import ImagePlus
 
 def im_track():
 	imp_comp = IJ.getImage()
-	orgtitle = imp.getTitle()
+	orgtitle = imp_comp.getTitle()
 	print(orgtitle)
-	dimentions = imp.getDimensions()
+	dimentions = imp_comp.getDimensions()
 	numZ, nChannels, numframes  = dimentions[3], dimentions[2], dimentions[4]
 	
 	# Setup settings for TrackMate
