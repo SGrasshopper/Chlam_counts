@@ -89,7 +89,7 @@ def im_process():
 	imp_comp = IJ.getImage()
 	IJ.run(imp_comp, "Bio-Formats Exporter", "save=/Users/brendangrieshaber/Desktop/test-output/" + orgtitle + ".ome.tif export compression=LZW")
     #IJ.selectWindow('Merged')
-    imp_comp.show()
+	imp_comp.show()
 	IJ.run('Close')
 
 od = OpenDialog("Time Laps Images", "")
