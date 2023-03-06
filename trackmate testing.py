@@ -148,6 +148,4 @@ for fileName in fileList:
     #IJ.run("Bio-Formats Importer", "open=[" + currentFile + "] color_mode=Composite view=Hyperstack stack_order=XYCZT use_virtual_stack")
     IJ.run("Bio-Formats Importer", "open=[" + currentFile + "] color_mode=Composite view=Hyperstack stack_order=XYCZT")
     #IJ.run("Set Measurements...", "area limit redirect=None decimal=0")
-    #imp = IJ.openImage(currentFile)
-    #imp.show()
     im_track()
