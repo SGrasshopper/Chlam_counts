@@ -96,7 +96,9 @@ def im_track():
 	    rowStr += ('%10.1f')
 	
 	#open a file to save results
+	#myfile = open('Users/brendangrieshaber/Desktop/data/'+orgtitle.split('.')[0]+'_ch3.csv', 'wb')
 	myfile = open('Users/brendangrieshaber/Desktop/data/'+orgtitle.split('.')[0]+'_ch3.csv', 'wb')
+	
 	print(myfile)
 	wr = csv.writer(myfile, quoting=csv.QUOTE_ALL)
 	wr.writerow(['Spot_ID', 'Track_ID', 'Frame', 'X', 'Y', 'Z', 'Channel_1', 'Channel_2', 'Channel_3'])
