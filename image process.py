@@ -79,7 +79,8 @@ def im_process():
 	IJ.run("Re-order Hyperstack ...", "channels=[Channels (c)] slices=[Frames (t)] frames=[Slices (z)]")
 	
 	imp_comp = IJ.getImage()
-	IJ.run(imp_comp, "Bio-Formats Exporter", "save=/Users/brendangrieshaber/Desktop/test-output/" + orgtitle + ".ome.tif export compression=LZW")
+	#IJ.run(imp_comp, "Bio-Formats Exporter", "save=/Users/brendangrieshaber/Desktop/test-output/" + orgtitle + ".ome.tif export compression=LZW")
+	IJ.run(imp_comp, "Bio-Formats Exporter", "save=/Users/scottgrieshaber/Documents/Counts_scripts/AScIELVA/test_croped/" + orgtitle + ".ome.tif export compression=LZW")
 	imp_comp.show()
 	IJ.run('Close')
 
