@@ -32,7 +32,6 @@ from ij import ImagePlus
 def im_process():
 	imp = IJ.getImage()
 	orgtitle = imp.getTitle()
-	print(orgtitle)
 	dimentions = imp.getDimensions()
 	numZ, nChannels, numframes  = dimentions[3], dimentions[2], dimentions[4]
 	imp.setPosition(1,numZ/2,1)
@@ -63,19 +62,12 @@ def im_process():
 	imp_GFP.show()
 	imp_RFP.show()
 	imp_DAPI.show()
-	#imp_all.show()
 	imp_all_dup = imp_all.duplicate()
-	#IJ.run(imp_all_dup, "Convert to Mask", "method=IsoData background=Dark black")
-	# look at this method
-	#IJ.run(imp_all_dup, "Auto Threshold", "method=IsoData white stack use_stack_histogram")
 	IJ.run(imp_all_dup, "Auto Threshold", "method=Default white stack use_stack_histogram")
 	
 	IJ.run(imp_all_dup, "Divide...", "value=255 stack")
 	imp_all2 = ImageCalculator.run(imp_all, imp_all_dup, "Multiply create 16-bit stack")
 	imp_all2.setTitle("result2")
-	#IJ.resetMinAndMax(imp_all2)
-	#IJ.run(imp_all2, "Enhance Contrast", "saturated=0.35")
-	#IJ.run(imp_all2, "16-bit", "")
 	imp_all2.show()
 	
 
@@ -88,7 +80,6 @@ def im_process():
 	
 	imp_comp = IJ.getImage()
 	IJ.run(imp_comp, "Bio-Formats Exporter", "save=/Users/brendangrieshaber/Desktop/test-output/" + orgtitle + ".ome.tif export compression=LZW")
-    #IJ.selectWindow('Merged')
 	imp_comp.show()
 	IJ.run('Close')
 
@@ -100,7 +91,6 @@ if "DisplaySettings.json" in fileList:
     fileList.remove("DisplaySettings.json")
 if ".DS_Store" in fileList:  
     fileList.remove(".DS_Store")  
-#print(firstDir + fileList[0])
 
 fileList.sort()
 for fileName in fileList:
@@ -109,8 +99,5 @@ for fileName in fileList:
     #IJ.run("Bio-Formats Importer", "open=[" + currentFile + "] color_mode=Default split_channels view=Hyperstack stack_order=XYCZT series_list="+str(i))
     #IJ.run("Bio-Formats Importer", "open=[" + currentFile + "] color_mode=Composite view=Hyperstack stack_order=XYCZT use_virtual_stack")
     IJ.run("Bio-Formats Importer", "open=[" + currentFile + "] color_mode=Composite view=Hyperstack stack_order=XYCZT")
-    #IJ.run("Set Measurements...", "area limit redirect=None decimal=0")
-    #imp = IJ.openImage(currentFile)
-    #imp.show()
     im_process()
     
