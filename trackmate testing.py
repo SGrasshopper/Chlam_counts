@@ -31,7 +31,6 @@ from ij import ImagePlus
 def im_track():
 	imp_comp = IJ.getImage()
 	orgtitle = imp_comp.getTitle()
-	print(orgtitle)
 	dimentions = imp_comp.getDimensions()
 	numZ, nChannels, numframes  = dimentions[3], dimentions[2], dimentions[4]
 	
@@ -45,7 +44,7 @@ def im_track():
 	settings.detectorFactory = LogDetectorFactory()
 	settings.detectorSettings = settings.detectorFactory.getDefaultSettings()
 	settings.detectorSettings['TARGET_CHANNEL'] = 4
-	settings.detectorSettings['RADIUS'] =8.0
+	settings.detectorSettings['RADIUS'] = 8.0
 	settings.detectorSettings['THRESHOLD'] = 90.0
 	
 	# Spot tracker.
@@ -60,7 +59,7 @@ def im_track():
 	
 	# Configure track filters
 	settings.addTrackAnalyzer(TrackDurationAnalyzer())
-	settings.addTrackAnalyzer(TrackSpotQualityFeatureAnalyzer())
+	settings.addTrackAnalyzer(TrackSpotQualityFeatureAnalyzer()) #dont use but leaving just in case
 	
 	filter1 = FeatureFilter('TRACK_DURATION', 3, True)
 	settings.addTrackFilter(filter1)
