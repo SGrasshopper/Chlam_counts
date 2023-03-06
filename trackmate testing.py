@@ -96,7 +96,7 @@ def im_track():
 	    rowStr += ('%10.1f')
 	
 	#open a file to save results
-	myfile = open('/Users/scottgrieshaber/Documents/RO1_figs/'+orgtitle.split('.')[0]+'_ch3.csv', 'wb')
+	myfile = open('Users/brendangrieshaber/Desktop/data/'+orgtitle.split('.')[0]+'_ch3.csv', 'wb')
 	print(myfile)
 	wr = csv.writer(myfile, quoting=csv.QUOTE_ALL)
 	wr.writerow(['Spot_ID', 'Track_ID', 'Frame', 'X', 'Y', 'Z', 'Channel_1', 'Channel_2', 'Channel_3'])
@@ -127,8 +127,8 @@ def im_track():
 	        l1 = (values[0], values[1], values[2], values[3], values[4], values[5], values[6], values[7], values[8])
 	        wr.writerow(l1)
 	myfile.close()
-	#IJ.selectWindow("Merged")
-	#IJ.run("Close")
+	IJ.selectWindow("Merged")
+	IJ.run("Close")
 
 od = OpenDialog("Time Laps Images", "")
 firstDir = od.getDirectory()
