@@ -70,7 +70,6 @@ def im_process():
 	imp_all2.setTitle("result2")
 	imp_all2.show()
 	
-
 	IJ.run("Merge Channels...", "c1=GFP c2=RFP c3=DAPI c4=result2 create")
 	IJ.selectWindow(newtitle)
 	IJ.run('Close')
