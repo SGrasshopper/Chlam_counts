@@ -97,7 +97,7 @@ def im_track():
 	
 	#open a file to save results
 	#myfile = open('Users/brendangrieshaber/Desktop/data/'+orgtitle.split('.')[0]+'_ch3.csv', 'wb')
-	myfile = open('Users/brendangrieshaber/Desktop/data/'+orgtitle.split('.')[0]+'_ch3.csv', 'wb')
+	myfile = open('/Users/scottgrieshaber/Documents/Counts_scripts/AScIELVA/data/'+orgtitle.split('.')[0]+'_ch3.csv', 'wb')
 	
 	print(myfile)
 	wr = csv.writer(myfile, quoting=csv.QUOTE_ALL)
@@ -129,7 +129,7 @@ def im_track():
 	        l1 = (values[0], values[1], values[2], values[3], values[4], values[5], values[6], values[7], values[8])
 	        wr.writerow(l1)
 	myfile.close()
-	IJ.selectWindow("Merged")
+	IJ.selectWindow(orgtitle)
 	IJ.run("Close")
 
 od = OpenDialog("Time Laps Images", "")
