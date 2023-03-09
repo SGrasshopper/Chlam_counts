@@ -28,8 +28,7 @@ import sys
 from ij import IJ
 from ij import ImagePlus
 
-
-def im_process():
+def im_crop():					#method to crop
 	imp = IJ.getImage()
 	orgtitle = imp.getTitle()
 	dimentions = imp.getDimensions()
@@ -43,6 +42,27 @@ def im_process():
 	IJ.run("Duplicate...", "duplicate")
 	IJ.selectWindow(orgtitle)
 	IJ.run('Close')
+	imp = IJ.getImage()
+	#IJ.run(imp, "Bio-Formats Exporter", "save=/Users/scottgrieshaber/Documents/Counts_scripts/AScIELVA/cropped_images/" + orgtitle + ".ome.tif export compression=LZW")
+	#IJ.run(imp_comp, "Bio-Formats Exporter", "save=/Users/brendangrieshaber/Desktop/test-output/" + orgtitle + ".ome.tif export compression=LZW")
+	croppedDir = firstDir+'cropped_images/'
+	IJ.run(imp, "Bio-Formats Exporter", "save=" + croppedDir + orgtitle + ".ome.tif export compression=LZW")
+	IJ.run('Close')
+
+def im_process():
+	#imp = IJ.getImage()
+	#orgtitle = imp.getTitle()
+	#dimentions = imp.getDimensions()
+	#numZ, nChannels, numframes  = dimentions[3], dimentions[2], dimentions[4]
+	#imp.setPosition(1,numZ/2,1)
+	#IJ.resetMinAndMax(imp)
+	#IJ.run(imp, "Enhance Contrast", "saturated=0.35")
+	#IJ.setTool("freehand")
+	#WaitForUserDialog("Circle Inclusion, then click OK.").show()
+	#IJ.run("Clear Outside")
+	#IJ.run("Duplicate...", "duplicate")
+	#IJ.selectWindow(orgtitle)
+	#IJ.run('Close')
 	imp = IJ.getImage()
 	newtitle = imp.getTitle()
 	channels = ChannelSplitter.split(imp)
@@ -95,6 +115,15 @@ def folder_process():
 	    fileList.remove(".DS_Store")  
 	
 	fileList.sort()
+	#path='/Users/scottgrieshaber/Documents/Counts_scripts/AScIELVA/cropped_images/'
+	path = firstDir+'cropped_images'					#make a new folder to save cropped images
+	os.mkdir(path)
+	for	fileName in fileList:
+		currentFile = firstDir + fileName
+		print(currentFile)
+		IJ.run("Bio-Formats Importer", "open=[" + currentFile + "] color_mode=Composite view=Hyperstack stack_order=XYCZT")
+		im_crop()
+
 	for fileName in fileList:
 	    currentFile = firstDir + fileName
 	    print(currentFile)
@@ -104,4 +133,4 @@ def folder_process():
 	    im_process()
 #-----------------------------------------------------------------------------------------#
 #-----------------------------------------------------------------------------------------#
-folder_process()
+#folder_process()
