@@ -27,8 +27,50 @@ import os
 import sys
 from ij import IJ
 from ij import ImagePlus
+import shutil
 
-def im_crop():					#method to crop
+#-----------------------------------------------------------------------------------------#
+
+def folder_process():
+	od = OpenDialog("Time Laps Images", "")
+	firstDir = od.getDirectory()
+	fileList = os.listdir(firstDir)
+	
+	croppedDir = firstDir+'cropped_images/'					#make a new folder to save cropped images
+	os.mkdir(croppedDir)
+	
+	processedDir = firstDir+'processed_images/'             #make a new folder to save processed images
+	os.mkdir(processedDir)
+	
+	if "DisplaySettings.json" in fileList:
+	    fileList.remove("DisplaySettings.json")
+	if ".DS_Store" in fileList:  
+	    fileList.remove(".DS_Store")  
+	
+	fileList.sort()
+	#path='/Users/scottgrieshaber/Documents/Counts_scripts/AScIELVA/cropped_images/'
+	
+	for	fileName in fileList:
+		currentFile = firstDir + fileName
+		print(currentFile)
+		IJ.run("Bio-Formats Importer", "open=[" + currentFile + "] color_mode=Composite view=Hyperstack stack_order=XYCZT")
+		im_crop(croppedDir)
+
+	
+	#croppedlist = os.listdir(firstDir)
+	for fileName in os.listdir(croppedDir):
+	    currentFile = croppedDir + fileName
+	    print(currentFile)
+	    #IJ.run("Bio-Formats Importer", "open=[" + currentFile + "] color_mode=Default split_channels view=Hyperstack stack_order=XYCZT series_list="+str(i))
+	    #IJ.run("Bio-Formats Importer", "open=[" + currentFile + "] color_mode=Composite view=Hyperstack stack_order=XYCZT use_virtual_stack")
+	    IJ.run("Bio-Formats Importer", "open=[" + currentFile + "] color_mode=Composite view=Hyperstack stack_order=XYCZT")
+	    im_process(processedDir)
+	    
+	shutil.rmtree(croppedDir)
+
+#-----------------------------------------------------------------------------------------#
+
+def im_crop(croppedDir):					#method to crop
 	imp = IJ.getImage()
 	orgtitle = imp.getTitle()
 	dimentions = imp.getDimensions()
@@ -45,15 +87,14 @@ def im_crop():					#method to crop
 	imp = IJ.getImage()
 	#IJ.run(imp, "Bio-Formats Exporter", "save=/Users/scottgrieshaber/Documents/Counts_scripts/AScIELVA/cropped_images/" + orgtitle + ".ome.tif export compression=LZW")
 	#IJ.run(imp_comp, "Bio-Formats Exporter", "save=/Users/brendangrieshaber/Desktop/test-output/" + orgtitle + ".ome.tif export compression=LZW")
-	croppedDir = firstDir+'cropped_images/'
 	IJ.run(imp, "Bio-Formats Exporter", "save=" + croppedDir + orgtitle + ".ome.tif export compression=LZW")
 	IJ.run('Close')
 
-def im_process():
-	#imp = IJ.getImage()
-	#orgtitle = imp.getTitle()
-	#dimentions = imp.getDimensions()
-	#numZ, nChannels, numframes  = dimentions[3], dimentions[2], dimentions[4]
+def im_process(processedDir):
+	imp = IJ.getImage()
+	orgtitle = imp.getTitle()
+	dimentions = imp.getDimensions()
+	numZ, nChannels, numframes  = dimentions[3], dimentions[2], dimentions[4]
 	#imp.setPosition(1,numZ/2,1)
 	#IJ.resetMinAndMax(imp)
 	#IJ.run(imp, "Enhance Contrast", "saturated=0.35")
@@ -63,8 +104,8 @@ def im_process():
 	#IJ.run("Duplicate...", "duplicate")
 	#IJ.selectWindow(orgtitle)
 	#IJ.run('Close')
-	imp = IJ.getImage()
-	newtitle = imp.getTitle()
+	#imp = IJ.getImage()
+	#newtitle = imp.getTitle()
 	channels = ChannelSplitter.split(imp)
 	imp_GFP = channels[0]
 	imp_RFP = channels[1]
@@ -91,46 +132,20 @@ def im_process():
 	imp_all2.show()
 	
 	IJ.run("Merge Channels...", "c1=GFP c2=RFP c3=DAPI c4=result2 create")
-	IJ.selectWindow(newtitle)
+	IJ.selectWindow(orgtitle)
 	IJ.run('Close')
 	IJ.selectWindow('Composite')
 	IJ.run("Set Scale...", "distance=0")
 	IJ.run("Re-order Hyperstack ...", "channels=[Channels (c)] slices=[Frames (t)] frames=[Slices (z)]")
 	
 	imp_comp = IJ.getImage()
-	IJ.run(imp_comp, "Bio-Formats Exporter", "save=/Users/brendangrieshaber/Desktop/test-output/" + orgtitle + ".ome.tif export compression=LZW")
+	IJ.run(imp_comp, "Bio-Formats Exporter", "save=" + processedDir + orgtitle + ".ome.tif export compression=LZW")
 	#IJ.run(imp_comp, "Bio-Formats Exporter", "save=/Users/scottgrieshaber/Documents/Counts_scripts/AScIELVA/test_croped/" + orgtitle + ".ome.tif export compression=LZW")
 	imp_comp.show()
 	IJ.run('Close')
 
 #-----------------------------------------------------------------------------------------#
-def folder_process():
-	od = OpenDialog("Time Laps Images", "")
-	firstDir = od.getDirectory()
-	fileList = os.listdir(firstDir)
-	
-	if "DisplaySettings.json" in fileList:
-	    fileList.remove("DisplaySettings.json")
-	if ".DS_Store" in fileList:  
-	    fileList.remove(".DS_Store")  
-	
-	fileList.sort()
-	#path='/Users/scottgrieshaber/Documents/Counts_scripts/AScIELVA/cropped_images/'
-	path = firstDir+'cropped_images'					#make a new folder to save cropped images
-	os.mkdir(path)
-	for	fileName in fileList:
-		currentFile = firstDir + fileName
-		print(currentFile)
-		IJ.run("Bio-Formats Importer", "open=[" + currentFile + "] color_mode=Composite view=Hyperstack stack_order=XYCZT")
-		im_crop()
 
-	for fileName in fileList:
-	    currentFile = firstDir + fileName
-	    print(currentFile)
-	    #IJ.run("Bio-Formats Importer", "open=[" + currentFile + "] color_mode=Default split_channels view=Hyperstack stack_order=XYCZT series_list="+str(i))
-	    #IJ.run("Bio-Formats Importer", "open=[" + currentFile + "] color_mode=Composite view=Hyperstack stack_order=XYCZT use_virtual_stack")
-	    IJ.run("Bio-Formats Importer", "open=[" + currentFile + "] color_mode=Composite view=Hyperstack stack_order=XYCZT")
-	    im_process()
 #-----------------------------------------------------------------------------------------#
 #-----------------------------------------------------------------------------------------#
-#folder_process()
+folder_process()
