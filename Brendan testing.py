@@ -95,7 +95,7 @@ def im_crop(saveDir):					#method to crop
 	#IJ.run(imp_comp, "Bio-Formats Exporter", "save=/Users/brendangrieshaber/Desktop/test-output/" + orgtitle + ".ome.tif export compression=LZW")
 	IJ.run(imp, "Bio-Formats Exporter", "save=" + saveDir + orgtitle + ".ome.tif export compression=LZW")
 	IJ.run('Close')
-
+#-----------------------------------------------------------------------------------------#
 def im_process(saveDir):
 	imp = IJ.getImage()
 	orgtitle = imp.getTitle()
@@ -221,7 +221,7 @@ def im_track(saveDir):
 	
 	#open a file to save results
 	#myfile = open('Users/brendangrieshaber/Desktop/data/'+orgtitle.split('.')[0]+'_ch3.csv', 'wb')
-	myfile = open('saveDir'+orgtitle.split('.')[0]+'_ch3.csv', 'wb')
+	myfile = open(saveDir + orgtitle.split('.')[0]+'_ch3.csv', 'wb')
 	
 	print(myfile)
 	wr = csv.writer(myfile, quoting=csv.QUOTE_ALL)
