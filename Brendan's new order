@@ -60,7 +60,7 @@ def folder_process():
 		IJ.run("Bio-Formats Importer", "open=[" + currentFile + "] color_mode=Composite view=Hyperstack stack_order=XYCZT")
 		im_crop(croppedDir)
 
-	
+	check=0
 	#croppedlist = os.listdir(firstDir)
 	for fileName in os.listdir(croppedDir):
 	    currentFile = croppedDir + fileName
@@ -68,14 +68,15 @@ def folder_process():
 	    #IJ.run("Bio-Formats Importer", "open=[" + currentFile + "] color_mode=Default split_channels view=Hyperstack stack_order=XYCZT series_list="+str(i))
 	    #IJ.run("Bio-Formats Importer", "open=[" + currentFile + "] color_mode=Composite view=Hyperstack stack_order=XYCZT use_virtual_stack")
 	    IJ.run("Bio-Formats Importer", "open=[" + currentFile + "] color_mode=Composite view=Hyperstack stack_order=XYCZT")
-	    im_process(processedDir)
-	shutil.rmtree(croppedDir)
-	check=0
-	for fileName in os.listdir(processedDir):
-	    currentFile = processedDir + fileName
-	    IJ.run("Bio-Formats Importer", "open=[" + currentFile + "] color_mode=Composite view=Hyperstack stack_order=XYCZT")
-	    im_track(outputDir, check)
+	    im_process(outputDir, check)
 	    check = check + 1
+	shutil.rmtree(croppedDir)
+	
+	#for fileName in os.listdir(processedDir):
+	#    currentFile = processedDir + fileName
+	#    IJ.run("Bio-Formats Importer", "open=[" + currentFile + "] color_mode=Composite view=Hyperstack stack_order=XYCZT")
+	#    im_track(outputDir, check)
+	#    check = check + 1
 #-----------------------------------------------------------------------------------------#
 
 def im_crop(saveDir):					#method to crop
@@ -98,7 +99,7 @@ def im_crop(saveDir):					#method to crop
 	IJ.run(imp, "Bio-Formats Exporter", "save=" + saveDir + orgtitle + ".ome.tif export compression=LZW")
 	IJ.run('Close')
 #-----------------------------------------------------------------------------------------#
-def im_process(saveDir):
+def im_process(saveDir, check):
 	imp = IJ.getImage()
 	orgtitle = imp.getTitle()
 	dimentions = imp.getDimensions()
@@ -147,10 +148,7 @@ def im_process(saveDir):
 	IJ.run("Re-order Hyperstack ...", "channels=[Channels (c)] slices=[Frames (t)] frames=[Slices (z)]")
 	
 	imp_comp = IJ.getImage()
-	IJ.run(imp_comp, "Bio-Formats Exporter", "save=" + saveDir + orgtitle + ".ome.tif export compression=LZW")
-	#IJ.run(imp_comp, "Bio-Formats Exporter", "save=/Users/scottgrieshaber/Documents/Counts_scripts/AScIELVA/test_croped/" + orgtitle + ".ome.tif export compression=LZW")
-	imp_comp.show()
-	IJ.run('Close')
+	im_track(saveDir, check)
 
 #-----------------------------------------------------------------------------------------#
 
