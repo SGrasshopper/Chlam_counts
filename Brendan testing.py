@@ -40,10 +40,8 @@ def folder_process():
 	croppedDir = firstDir+'cropped_images/'					#make a new folder to save cropped images
 	os.mkdir(croppedDir)
 	
-	processedDir = firstDir+'processed_images/'             #make a new folder to save processed images
-	os.mkdir(processedDir)
 	
-	outputDir = firstDir+'image_output/'             #make a new folder to save processed images
+	outputDir = firstDir+'image_output/'             
 	os.mkdir(outputDir)
 	
 	if "DisplaySettings.json" in fileList:
