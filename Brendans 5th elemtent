@@ -120,8 +120,10 @@ def im_process(saveDir, check):
 	imp_GFP = channels[0]
 	imp_RFP = channels[1]
 	imp_DAPI = channels[2]
-	imp3 = ImageCalculator.run(imp_GFP, imp_RFP, "Add create 32-bit stack")
-	imp_all = ImageCalculator.run(imp3, imp_DAPI, "Add create 32-bit stack")
+	imp_notSure = channels[3]
+	imp_add1 = ImageCalculator.run(imp_GFP, imp_RFP, "Add create 32-bit stack") #adds the first two
+	imp_add2 = ImageCalculator.run(imp_add1, imp_DAPI, "Add create 32-bit stack") #adds the third
+	imp_all = ImageCalculator.run(imp_add2, imp_notSure, "Add create 32-bit stack") #adds the 4th
 	imp_all.setPosition(1,numZ/2,1)
 	IJ.resetMinAndMax(imp_all)
 	IJ.run(imp_all, "Enhance Contrast", "saturated=0.35")
@@ -129,10 +131,12 @@ def im_process(saveDir, check):
 	imp_GFP.setTitle('GFP')
 	imp_RFP.setTitle('RFP')
 	imp_DAPI.setTitle('DAPI')
+	imp_notSure.setTitle('notSure')
 	imp_all.setTitle('result')
 	imp_GFP.show()
 	imp_RFP.show()
 	imp_DAPI.show()
+	imp_notSure.show()
 	imp_all_dup = imp_all.duplicate()
 	IJ.run(imp_all_dup, "Auto Threshold", "method=Default white stack use_stack_histogram")
 	
@@ -141,7 +145,7 @@ def im_process(saveDir, check):
 	imp_all2.setTitle("result2")
 	imp_all2.show()
 	
-	IJ.run("Merge Channels...", "c1=GFP c2=RFP c3=DAPI c4=result2 create")
+	IJ.run("Merge Channels...", "c1=GFP c2=RFP c3=DAPI c4=notSure c5=result2 create")  #merges all 5 into new imp
 	IJ.selectWindow(orgtitle)
 	IJ.run('Close')
 	IJ.selectWindow('Composite')
@@ -158,6 +162,7 @@ def im_track(saveDir, check):
 	orgtitle = imp_comp.getTitle()
 	dimentions = imp_comp.getDimensions()
 	numZ, nChannels, numframes  = dimentions[3], dimentions[2], dimentions[4]
+	print(nChannels)
 	
 	# Setup settings for TrackMate
 	settings = Settings(imp_comp)
@@ -168,9 +173,9 @@ def im_track(saveDir, check):
 	# Spot detector.
 	settings.detectorFactory = LogDetectorFactory()
 	settings.detectorSettings = settings.detectorFactory.getDefaultSettings()
-	settings.detectorSettings['TARGET_CHANNEL'] = 4
+	settings.detectorSettings['TARGET_CHANNEL'] = 5
 	settings.detectorSettings['RADIUS'] = 8.0
-	settings.detectorSettings['THRESHOLD'] = 90.0
+	settings.detectorSettings['THRESHOLD'] = 150.0
 	
 	# Spot tracker.
 	# Configure tracker - We don't want to allow merges or splits
@@ -238,7 +243,7 @@ def im_track(saveDir, check):
 	
 	print(myfile)
 	wr = csv.writer(myfile, quoting=csv.QUOTE_ALL)
-	wr.writerow(['Spot_ID', 'Track_ID', 'Frame', 'X', 'Y', 'Z', 'Channel_1', 'Channel_2', 'Channel_3'])
+	wr.writerow(['Spot_ID', 'Track_ID', 'Frame', 'X', 'Y', 'Z', 'Channel_1', 'Channel_2', 'Channel_3', 'Channel_4'])
 	
 	IJ.log('\n')
 	IJ.log(headerStr)
@@ -263,7 +268,7 @@ def im_track(saveDir, check):
 	            
 	        IJ.log(str(values))
 	        IJ.log(rowStr % tuple(values))
-	        l1 = (values[0], values[1], values[2], values[3], values[4], values[5], values[6], values[7], values[8])
+	        l1 = (values[0], values[1], values[2], values[3], values[4], values[5], values[6], values[7], values[8], values[9])
 	        wr.writerow(l1)
 	myfile.close()
 	IJ.selectWindow(orgtitle)

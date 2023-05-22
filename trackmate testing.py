@@ -96,6 +96,7 @@ def im_track():
 	    rowStr += ('%10.1f')
 	
 	#open a file to save results
+	
 	#myfile = open('Users/brendangrieshaber/Desktop/data/'+orgtitle.split('.')[0]+'_ch3.csv', 'wb')
 	myfile = open('/Users/scottgrieshaber/Documents/Counts_scripts/AScIELVA/data/'+orgtitle.split('.')[0]+'_ch3.csv', 'wb')
 	
@@ -144,7 +145,7 @@ if ".DS_Store" in fileList:
 
 fileList.sort()
 for fileName in fileList:
-    currentFile = firstDir + fileName
+    currentFile = firstDir +  fileName
     print(currentFile)
     #IJ.run("Bio-Formats Importer", "open=[" + currentFile + "] color_mode=Default split_channels view=Hyperstack stack_order=XYCZT series_list="+str(i))
     #IJ.run("Bio-Formats Importer", "open=[" + currentFile + "] color_mode=Composite view=Hyperstack stack_order=XYCZT use_virtual_stack")
