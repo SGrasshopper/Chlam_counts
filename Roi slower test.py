@@ -189,7 +189,7 @@ def im_track(saveDir, check):
 	    rowStr += ('%10.1f')
 	    
 	if (check==0) :
-		WaitForUserDialog("How is it looking? scroll around, then enter 1 to cancel or 0  to continue!").show()
+		WaitForUserDialog("How is it looking? scroll around, then enter 0 to continue or 1 to cancel!").show()
 		gd = GenericDialog("0 to continue, 1 to cancel")
 		gd.addNumericField("Number:", 0, 0)
 		gd.showDialog()
