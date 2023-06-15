@@ -67,17 +67,17 @@ def folder_process():
 	for fileName in fileList:
 	    currentFile = firstDir + fileName
 	    print(currentFile)
-	    sample_ID_kinda = fileName.rsplit('_',1)[1]
-	    sample_ID = int(sample_ID_kinda.split('.')[0])
-	    print(sample_ID)
+	    Inclusion_kinda = fileName.rsplit('_',1)[1]
+	    Inclusion = int(Inclusion_kinda.split('.')[0])
+	    print(Inclusion)
 	    #IJ.run("Bio-Formats Importer", "open=[" + currentFile + "] color_mode=Default split_channels view=Hyperstack stack_order=XYCZT series_list="+str(i))
 	    #IJ.run("Bio-Formats Importer", "open=[" + currentFile + "] color_mode=Composite view=Hyperstack stack_order=XYCZT use_virtual_stack")
 	    IJ.run("Bio-Formats Importer", "open=[" + currentFile + "] color_mode=Composite view=Hyperstack stack_order=XYCZT")
-	    im_process(outputDir, check, csvName, sample_ID)
+	    im_process(outputDir, check, csvName, Inclusion)
 	    check = check + 1
 	
 #-----------------------------------------------------------------------------------------#
-def im_process(saveDir, check, csvName, sample_ID):
+def im_process(saveDir, check, csvName, Inclusion):
 	imp = IJ.getImage()
 	orgtitle = imp.getTitle()
 	dimentions = imp.getDimensions()
@@ -132,11 +132,11 @@ def im_process(saveDir, check, csvName, sample_ID):
 	IJ.setTool("freehand")
 	imp_comp.setPosition(1,1, numframes_2/2)
 	WaitForUserDialog("Circle Inclusion, then click OK.").show()
-	im_track(saveDir, check, csvName, sample_ID)
+	im_track(saveDir, check, csvName, Inclusion)
 
 #-----------------------------------------------------------------------------------------#
 
-def im_track(saveDir, check, csvName, sample_ID):
+def im_track(saveDir, check, csvName, Inclusion):
 	imp_comp = IJ.getImage()
 	orgtitle = imp_comp.getTitle()
 	dimentions = imp_comp.getDimensions()
@@ -217,11 +217,11 @@ def im_track(saveDir, check, csvName, sample_ID):
 			sys.exit("Processing cancelled by user")
 	#open a file to save results
 	#myfile = open('Users/brendangrieshaber/Desktop/data/'+orgtitle.split('.')[0]+'_ch3.csv', 'wb')
-	myfile = open(saveDir + csvName + '_' + str(sample_ID) + '.csv', 'wb')
+	myfile = open(saveDir + csvName + '_' + str(Inclusion) + '.csv', 'wb')
 	
 	print(myfile)
 	wr = csv.writer(myfile, quoting=csv.QUOTE_ALL)
-	wr.writerow(['Spot_ID', 'Track_ID', 'Frame', 'X', 'Y', 'Z', 'Channel_1', 'Channel_2', 'Channel_3', 'Sample_ID'])
+	wr.writerow(['Spot_ID', 'Track_ID', 'Frame', 'X', 'Y', 'Z', 'Channel_1', 'Channel_2', 'Channel_3', 'Inclusion'])
 	
 	IJ.log('\n')
 	IJ.log(headerStr)
@@ -246,7 +246,7 @@ def im_track(saveDir, check, csvName, sample_ID):
 	            
 	        IJ.log(str(values))
 	        IJ.log(rowStr % tuple(values))
-	        l1 = (values[0], values[1], values[2], values[3], values[4], values[5], values[6], values[7], values[8], sample_ID)
+	        l1 = (values[0], values[1], values[2], values[3], values[4], values[5], values[6], values[7], values[8], Inclusion)
 	        wr.writerow(l1)
 	myfile.close()
 	IJ.selectWindow(orgtitle)
