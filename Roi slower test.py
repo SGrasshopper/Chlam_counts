@@ -39,6 +39,18 @@ def folder_process():
 	firstDir = od.getDirectory()
 	fileList = os.listdir(firstDir)
 	
+	print(firstDir)
+	
+	WaitForUserDialog("Enter the strain and time in the following format: strain_time").show()
+	gd1 = GenericDialog("strain_time")
+	gd1.addStringField('csv_name:', "")
+	gd1.showDialog()
+	if gd1.wasCanceled():
+   		pass
+	else:
+		csvName = gd1.getNextString()
+	print(csvName)
+	
 	
 	outputDir = firstDir+'image_output/'             #make a new folder to save processed images
 	os.mkdir(outputDir)
@@ -55,14 +67,17 @@ def folder_process():
 	for fileName in fileList:
 	    currentFile = firstDir + fileName
 	    print(currentFile)
+	    sample_ID_kinda = fileName.rsplit('_',1)[1]
+	    sample_ID = int(sample_ID_kinda.split('.')[0])
+	    print(sample_ID)
 	    #IJ.run("Bio-Formats Importer", "open=[" + currentFile + "] color_mode=Default split_channels view=Hyperstack stack_order=XYCZT series_list="+str(i))
 	    #IJ.run("Bio-Formats Importer", "open=[" + currentFile + "] color_mode=Composite view=Hyperstack stack_order=XYCZT use_virtual_stack")
 	    IJ.run("Bio-Formats Importer", "open=[" + currentFile + "] color_mode=Composite view=Hyperstack stack_order=XYCZT")
-	    im_process(outputDir, check)
+	    im_process(outputDir, check, csvName, sample_ID)
 	    check = check + 1
 	
 #-----------------------------------------------------------------------------------------#
-def im_process(saveDir, check):
+def im_process(saveDir, check, csvName, sample_ID):
 	imp = IJ.getImage()
 	orgtitle = imp.getTitle()
 	dimentions = imp.getDimensions()
@@ -117,11 +132,11 @@ def im_process(saveDir, check):
 	IJ.setTool("freehand")
 	imp_comp.setPosition(1,1, numframes_2/2)
 	WaitForUserDialog("Circle Inclusion, then click OK.").show()
-	im_track(saveDir, check)
+	im_track(saveDir, check, csvName, sample_ID)
 
 #-----------------------------------------------------------------------------------------#
 
-def im_track(saveDir, check):
+def im_track(saveDir, check, csvName, sample_ID):
 	imp_comp = IJ.getImage()
 	orgtitle = imp_comp.getTitle()
 	dimentions = imp_comp.getDimensions()
@@ -202,11 +217,11 @@ def im_track(saveDir, check):
 			sys.exit("Processing cancelled by user")
 	#open a file to save results
 	#myfile = open('Users/brendangrieshaber/Desktop/data/'+orgtitle.split('.')[0]+'_ch3.csv', 'wb')
-	myfile = open(saveDir + orgtitle.split('.')[0]+'_ch3.csv', 'wb')
+	myfile = open(saveDir + csvName + '_' + str(sample_ID) + '.csv', 'wb')
 	
 	print(myfile)
 	wr = csv.writer(myfile, quoting=csv.QUOTE_ALL)
-	wr.writerow(['Spot_ID', 'Track_ID', 'Frame', 'X', 'Y', 'Z', 'Channel_1', 'Channel_2', 'Channel_3'])
+	wr.writerow(['Spot_ID', 'Track_ID', 'Frame', 'X', 'Y', 'Z', 'Channel_1', 'Channel_2', 'Channel_3', 'Sample_ID'])
 	
 	IJ.log('\n')
 	IJ.log(headerStr)
@@ -231,7 +246,7 @@ def im_track(saveDir, check):
 	            
 	        IJ.log(str(values))
 	        IJ.log(rowStr % tuple(values))
-	        l1 = (values[0], values[1], values[2], values[3], values[4], values[5], values[6], values[7], values[8])
+	        l1 = (values[0], values[1], values[2], values[3], values[4], values[5], values[6], values[7], values[8], sample_ID)
 	        wr.writerow(l1)
 	myfile.close()
 	IJ.selectWindow(orgtitle)
