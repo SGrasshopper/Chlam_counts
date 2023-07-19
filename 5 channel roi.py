@@ -110,17 +110,17 @@ def im_process(saveDir, check, csvName, Inclusion):
 	imp_DAPI.setTitle('DAPI')
 	imp_notSure.setTitle('notSure')
 	imp_all.setTitle('result')
-	imp_all_dup = imp_all.duplicate()
-	IJ.run(imp_all_dup, "Auto Threshold", "method=Default white stack use_stack_histogram")
-	
-	IJ.run(imp_all_dup, "Divide...", "value=255 stack")
-	imp_all2 = ImageCalculator.run(imp_all, imp_all_dup, "Multiply create 16-bit stack")
-	imp_all2.setTitle("result2")
+	#imp_all_dup = imp_all.duplicate()
+	#IJ.run(imp_all_dup, "Auto Threshold", "method=Default white stack use_stack_histogram")
+	#
+	#IJ.run(imp_all_dup, "Divide...", "value=255 stack")
+	#imp_all2 = ImageCalculator.run(imp_all, imp_all_dup, "Multiply create 16-bit stack")
+	#imp_all2.setTitle("result2")
 	imp_GFP.show()
 	imp_RFP.show()
 	imp_DAPI.show()
 	imp_notSure.show()
-	imp_all2.show()
+	imp_all.show()
 	
 	IJ.run("Merge Channels...", "c1=GFP c2=RFP c3=DAPI c4=notSure c5=result2 create")  #merges all 5 into new imp
 	IJ.selectWindow(orgtitle)
