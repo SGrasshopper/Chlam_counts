@@ -221,7 +221,7 @@ def im_track(saveDir, check, csvName, Inclusion):
 	
 	print(myfile)
 	wr = csv.writer(myfile, quoting=csv.QUOTE_ALL)
-	wr.writerow(['Spot_ID', 'Track_ID', 'Frame', 'X', 'Y', 'Z', 'Channel_1', 'Channel_2', 'Channel_3', 'Inclusion'])
+	wr.writerow(['Spot_ID', 'Track_ID', 'Frame', 'X', 'Y', 'Z', 'Channel_1', 'Channel_2', 'Channel_3', 'Channel_4', 'Inclusion'])
 	
 	IJ.log('\n')
 	IJ.log(headerStr)
@@ -246,7 +246,7 @@ def im_track(saveDir, check, csvName, Inclusion):
 	            
 	        IJ.log(str(values))
 	        IJ.log(rowStr % tuple(values))
-	        l1 = (values[0], values[1], values[2], values[3], values[4], values[5], values[6], values[7], values[8], Inclusion)
+	        l1 = (values[0], values[1], values[2], values[3], values[4], values[5], values[6], values[7], values[8], values[9], Inclusion)
 	        wr.writerow(l1)
 	myfile.close()
 	IJ.selectWindow(orgtitle)
