@@ -64,17 +64,19 @@ def folder_process():
 	#path='/Users/scottgrieshaber/Documents/Counts_scripts/AScIELVA/cropped_images/'
 	check=0
 	#croppedlist = os.listdir(firstDir)
+	Inclusion = 1
 	for fileName in fileList:
 	    currentFile = firstDir + fileName
 	    print(currentFile)
-	    Inclusion_kinda = fileName.rsplit('_',1)[1]
-	    Inclusion = int(Inclusion_kinda.split('.')[0])
-	    print(Inclusion)
+	    #Inclusion_kinda = fileName.rsplit('_',1)[1]
+	    #Inclusion = int(Inclusion_kinda.split('.')[0])
+	    #print(Inclusion)
 	    #IJ.run("Bio-Formats Importer", "open=[" + currentFile + "] color_mode=Default split_channels view=Hyperstack stack_order=XYCZT series_list="+str(i))
 	    #IJ.run("Bio-Formats Importer", "open=[" + currentFile + "] color_mode=Composite view=Hyperstack stack_order=XYCZT use_virtual_stack")
 	    IJ.run("Bio-Formats Importer", "open=[" + currentFile + "] color_mode=Composite view=Hyperstack stack_order=XYCZT")
 	    im_process(outputDir, check, csvName, Inclusion)
 	    check = check + 1
+		Iinclusion = Inclusion+1
 	
 #-----------------------------------------------------------------------------------------#
 def im_process(saveDir, check, csvName, Inclusion):
